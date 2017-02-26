@@ -5,10 +5,7 @@ import (
 	"net/http"
 )
 
-const (
-	DataBaseName   = "test_mgo_four"
-	CollectionName = "Todo"
-)
+var DB = DataBaseConfig{"test_mgo_four", "Todo"}
 
 func main() {
 	session, err := Connect("localhost:27017")

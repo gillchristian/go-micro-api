@@ -8,6 +8,10 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type DataBaseConfig struct {
+	Name, Collection string
+}
+
 type Todo struct {
 	ID      bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	Content string        `bson:",omitempty" json:"content,omitempty"`
@@ -32,7 +36,7 @@ func EnsureIndex(s *mgo.Session) {
 	session := s.Copy()
 	defer session.Close()
 
-	c := session.DB(DataBaseName).C(CollectionName)
+	c := session.DB(DB.Name).C(DB.Collection)
 
 	index := mgo.Index{
 		Key:        []string{"_id"},

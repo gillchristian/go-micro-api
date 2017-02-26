@@ -36,7 +36,7 @@ func AddTodo(s *mgo.Session) httprouter.Handle {
 			return
 		}
 
-		c := session.DB(DataBaseName).C(CollectionName)
+		c := session.DB(DB.Name).C(DB.Collection)
 
 		todo.ID = bson.NewObjectId()
 
@@ -67,7 +67,7 @@ func AllTodos(s *mgo.Session) httprouter.Handle {
 		session := s.Copy()
 		defer session.Close()
 
-		c := session.DB(DataBaseName).C(CollectionName)
+		c := session.DB(DB.Name).C(DB.Collection)
 
 		var todos []Todo
 		err := c.Find(bson.M{}).All(&todos)
@@ -91,7 +91,7 @@ func SingleTodo(s *mgo.Session) httprouter.Handle {
 		session := s.Copy()
 		defer session.Close()
 
-		c := session.DB(DataBaseName).C(CollectionName)
+		c := session.DB(DB.Name).C(DB.Collection)
 
 		var todo Todo
 		id := bson.ObjectIdHex(p.ByName("id"))
@@ -117,7 +117,7 @@ func DeleteTodo(s *mgo.Session) httprouter.Handle {
 		session := s.Copy()
 		defer session.Close()
 
-		c := session.DB(DataBaseName).C(CollectionName)
+		c := session.DB(DB.Name).C(DB.Collection)
 
 		id := bson.ObjectIdHex(p.ByName("id"))
 
@@ -148,7 +148,7 @@ func UpdateTodo(s *mgo.Session) httprouter.Handle {
 			return
 		}
 
-		c := session.DB(DataBaseName).C(CollectionName)
+		c := session.DB(DB.Name).C(DB.Collection)
 
 		id := bson.ObjectIdHex(p.ByName("id"))
 
