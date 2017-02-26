@@ -10,7 +10,8 @@ import (
 
 type Todo struct {
 	ID      bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Content string        `json:"content"`
+	Content string        `bson:",omitempty" json:"content,omitempty"`
+	Title   string        `bson:",omitempty" json:"title,omitempty"`
 }
 
 func Connect(url string) (*mgo.Session, error) {
