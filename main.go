@@ -1,3 +1,4 @@
+// the go-micro-api runs a RESTful microservice to handle a todo list
 package main
 
 import (
@@ -30,6 +31,9 @@ func main() {
 	return
 }
 
+// runServer runs the http.ListenAndServe server and
+// prompts for a new port if the provided one is
+// already in use then tries again with the new port
 func runServer(port string, router http.Handler) error {
 	fmt.Printf("Running on localhost:%v\n", port)
 
@@ -47,10 +51,13 @@ func runServer(port string, router http.Handler) error {
 	return err
 }
 
+// usedPortError returns http error message for a already in use port
 func usedPortError(port string) string {
 	return fmt.Sprintf("listen tcp :%v: bind: address already in use", port)
 }
 
+// prompNewPort prompts the user to input a port
+// on the terminal and returns it
 func prompNewPort() (string, error) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Please enter a new port: ")

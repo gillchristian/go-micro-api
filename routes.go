@@ -21,13 +21,13 @@ var routes = Routes{
 		Handler: SingleTodo,
 	},
 	Route{
-		Method:  http.MethodDelete,
-		Pattern: "/api/todo/:id",
-		Handler: DeleteTodo,
-	},
-	Route{
 		Method:  http.MethodPut,
 		Pattern: "/api/todo/:id",
 		Handler: UpdateTodo,
+	},
+	Route{
+		Method:  http.MethodDelete,
+		Pattern: "/api/todo/:id",
+		Handler: DeleteTodo,
 	},
 }

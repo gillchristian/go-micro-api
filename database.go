@@ -2,18 +2,11 @@ package main
 
 import (
 	"fmt"
-	// "strconv"
 
 	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
-type Todo struct {
-	ID      bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Content string        `bson:",omitempty" json:"content,omitempty"`
-	Title   string        `bson:",omitempty" json:"title,omitempty"`
-}
-
+// Connect connects to a MongoDB instance
 func Connect(url string) (*mgo.Session, error) {
 	fmt.Println("Connecting to the DataBase...")
 
@@ -23,11 +16,12 @@ func Connect(url string) (*mgo.Session, error) {
 		return nil, err
 	}
 
-	fmt.Println("CONNECTED!!!\n")
+	fmt.Println("Connected!!!\n")
 
 	return session, nil
 }
 
+// EnsureIndex calls EnsureIndex on the microservice's DB Collection
 func EnsureIndex(s *mgo.Session, DB DataBaseConfig) {
 	session := s.Copy()
 	defer session.Close()

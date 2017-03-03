@@ -16,6 +16,8 @@ type Route struct {
 
 type Routes []Route
 
+// Router creates a httprouter.Router and
+// attaches the provided route handlers to it
 func Router(routes *Routes, s *mgo.Session, DB DataBaseConfig) *httprouter.Router {
 	fmt.Println("Setting up routes...\n")
 

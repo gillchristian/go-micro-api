@@ -16,12 +16,11 @@ type Config struct {
 	Port string         `yml:"port"`
 }
 
+// TODO: consider using toml files
+// see https://goo.gl/dC9YVl & https://goo.gl/nNIieS
 const (
 	MicroFile = "micro.yml"
 )
-
-// TODO: consider using toml files
-// see https://goo.gl/dC9YVl & https://goo.gl/nNIieS
 
 // ReadConfig reads the config file
 func ReadConfig() (Config, error) {
