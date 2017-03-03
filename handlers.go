@@ -23,7 +23,7 @@ func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
 	w.Write(json)
 }
 
-func AddTodo(s *mgo.Session) httprouter.Handle {
+func AddTodo(s *mgo.Session, DB DataBaseConfig) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		session := s.Copy()
 		defer session.Close()
@@ -62,7 +62,7 @@ func AddTodo(s *mgo.Session) httprouter.Handle {
 	}
 }
 
-func AllTodos(s *mgo.Session) httprouter.Handle {
+func AllTodos(s *mgo.Session, DB DataBaseConfig) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		session := s.Copy()
 		defer session.Close()
@@ -86,7 +86,7 @@ func AllTodos(s *mgo.Session) httprouter.Handle {
 	}
 }
 
-func SingleTodo(s *mgo.Session) httprouter.Handle {
+func SingleTodo(s *mgo.Session, DB DataBaseConfig) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		session := s.Copy()
 		defer session.Close()
@@ -112,7 +112,7 @@ func SingleTodo(s *mgo.Session) httprouter.Handle {
 	}
 }
 
-func DeleteTodo(s *mgo.Session) httprouter.Handle {
+func DeleteTodo(s *mgo.Session, DB DataBaseConfig) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		session := s.Copy()
 		defer session.Close()
@@ -135,7 +135,7 @@ func DeleteTodo(s *mgo.Session) httprouter.Handle {
 	}
 }
 
-func UpdateTodo(s *mgo.Session) httprouter.Handle {
+func UpdateTodo(s *mgo.Session, DB DataBaseConfig) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		session := s.Copy()
 		defer session.Close()

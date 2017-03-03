@@ -1,0 +1,6 @@
+database:
+  url: "localhost:27017"
+  name: "test_mgo_four"
+  collection: "Todo"
+
+port: 8080

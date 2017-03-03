@@ -1,25 +1,58 @@
 package main
 
 import (
-	"log"
+	"bufio"
+	"fmt"
 	"net/http"
+	"os"
+	"strings"
 )
 
-var DB = DataBaseConfig{"test_mgo_four", "Todo"}
-
 func main() {
-	session, err := Connect("localhost:27017")
-	// this defer does not work
-	// maybe connect on request
-	// see https://goo.gl/25HDes
+	conf, err := ReadConfig()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		return
+	}
+
+	session, err := Connect(conf.DB.Url)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 	defer session.Close()
+	EnsureIndex(session, conf.DB)
 
-	EnsureIndex(session)
+	router := Router(&routes, session, conf.DB)
 
-	router := Router(&routes, session)
+	err = runServer(conf.Port, router)
+	fmt.Println(err)
+	return
+}
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+func runServer(port string, router http.Handler) error {
+	fmt.Printf("Running on localhost:%v\n", port)
+
+	err := http.ListenAndServe(":"+port, router)
+
+	if err.Error() == usedPortError(port) {
+		fmt.Printf("Port %v is busy\n\n", port)
+		newPort, err := prompNewPort()
+		if err != nil {
+			return err
+		}
+		fmt.Println(newPort)
+		return runServer(strings.TrimSpace(newPort), router)
+	}
+	return err
+}
+
+func usedPortError(port string) string {
+	return fmt.Sprintf("listen tcp :%v: bind: address already in use", port)
+}
+
+func prompNewPort() (string, error) {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Please enter a new port: ")
+	return reader.ReadString('\n')
 }
